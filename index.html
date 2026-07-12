@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp DP Downloader - Samarth Smart Intelligence Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #02040a;
+            --bg-secondary: #080f1e;
+            --google-blue: #1a73e8;
+            --neon-blue: #00f0ff;
+            --neon-purple: #bd00ff;
+            --neon-glow: rgba(0, 240, 255, 0.35);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --glass-bg: rgba(8, 15, 30, 0.75);
+            --glass-border: rgba(0, 240, 255, 0.2);
+            --success-color: #00e676;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Google Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-orb {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(189, 0, 255, 0.12) 0%, rgba(0, 240, 255, 0.08) 40%, rgba(0,0,0,0) 70%);
+            top: -10%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 430px; 
+            min-height: 100vh;
+            background: linear-gradient(180deg, rgba(2, 4, 10, 0.98) 0%, rgba(8, 15, 30, 0.99) 100%);
+            border-left: 1px solid rgba(0, 240, 255, 0.1);
+            border-right: 1px solid rgba(0, 240, 255, 0.1);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            box-shadow: 0 0 100px rgba(0, 240, 255, 0.15);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-box {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--neon-purple);
+            box-shadow: 0 0 10px rgba(189, 0, 255, 0.4);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--neon-purple);
+            font-size: 1.1rem;
+            background: rgba(189, 0, 255, 0.05);
+        }
+
+        .status-pill {
+            background: rgba(0, 240, 255, 0.08);
+            border: 1px solid rgba(0, 240, 255, 0.25);
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: var(--neon-blue);
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-blue);
+            animation: pulse 1.2s infinite alternate;
+        }
+
+        .main-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--neon-blue) 70%, var(--neon-purple) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 24px;
+            font-weight: 400;
+        }
+
+        .tab-bar {
+            display: flex;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            padding: 4px;
+            margin-bottom: 16px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 240, 255, 0.08);
+            color: var(--neon-blue);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            font-weight: 700;
+            box-shadow: inset 0 0 10px rgba(0, 240, 255, 0.1);
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 25px 55px rgba(0, 0, 0, 0.6);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            transition: color 0.3s;
+        }
+
+        .styled-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: rgba(2, 4, 10, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .styled-input:focus {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 16px rgba(189, 0, 255, 0.25);
+        }
+
+        .ai-status-panel {
+            background: rgba(189, 0, 255, 0.04);
+            border: 1px solid rgba(189, 0, 255, 0.15);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+
+        .glow-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(90deg, var(--neon-blue) 0%, #1a73e8 50%, var(--neon-purple) 100%);
+            background-size: 200% auto;
+            border: none;
+            border-radius: 14px;
+            color: #ffffff;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 30px rgba(0, 240, 255, 0.3);
+        }
+
+        .glow-btn:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 0 35px rgba(189, 0, 255, 0.5);
+        }
+
+        .sound-wave-container {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            height: 30px;
+            margin: 15px 0;
+        }
+
+        .bar {
+            width: 4px;
+            height: 5px;
+            background: var(--neon-blue);
+            border-radius: 2px;
+            animation: bounce 0.5s ease-in-out infinite alternate;
+        }
+
+        .bar:nth-child(2n) { background: var(--neon-purple); animation-delay: 0.1s; }
+        .bar:nth-child(3n) { background: #ffffff; animation-delay: 0.2s; }
+        .bar:nth-child(4n) { animation-delay: 0.3s; }
+
+        .loader-container {
+            display: none; 
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 15px 0;
+        }
+
+        .progress-circle {
+            position: relative;
+            width: 70px;
+            height: 70px;
+        }
+
+        .progress-circle svg {
+            width: 70px;
+            height: 70px;
+            transform: rotate(-90deg);
+        }
+
+        .progress-circle circle {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke-width: 5;
+            stroke-linecap: round;
+        }
+
+        .progress-circle circle:nth-child(1) { stroke: rgba(255, 255, 255, 0.03); }
+        .progress-circle circle:nth-child(2) {
+            stroke: var(--neon-purple);
+            stroke-dasharray: 220;
+            stroke-dashoffset: 220;
+            animation: loadAnim 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .loader-text {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .preview-box {
+            display: none;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px dashed rgba(189, 0, 255, 0.3);
+            border-radius: 20px;
+            padding: 16px;
+            text-align: center;
+            animation: fadeIn 0.4s ease;
+            margin-bottom: 20px;
+        }
+
+        .preview-avatar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-secondary);
+            background: var(--bg-secondary);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .metric-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 16px;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; }
+            100% { opacity: 1; box-shadow: 0 0 12px var(--neon-blue); }
+        }
+
+        @keyframes loadAnim {
+            0% { stroke-dashoffset: 220; }
+            50% { stroke-dashoffset: 40; }
+            100% { stroke-dashoffset: 220; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes bounce {
+            10% { height: 5px; }
+            100% { height: 28px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cyber-grid"></div>
+    <div class="glow-orb"></div>
+
+    <div class="app-container">
+        <header class="header">
+            <div class="brand-logo">
+                <div class="logo-box">
+                    <i class="fa-solid fa-brain"></i>
+                </div>
+                <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.5px;">SAMARTH AI v2.6</span>
+            </div>
+            <div class="status-pill">
+                <div class="status-dot"></div>
+                SYSTEM OVERLOADED
+            </div>
+        </header>
+
+        <main style="flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
+            <div>
+                <h1 class="main-title">WhatsApp DP Downloader</h1>
+                <p class="subtitle">Download WhatsApp Profile Pictures Easily</p>
+            </div>
+
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchMode('number', this)">
+                    <i class="fa-solid fa-mobile-screen-button"></i> Number Input
+                </button>
+                <button class="tab-btn" onclick="switchMode('link', this)">
+                    <i class="fa-solid fa-link"></i> Direct Link
+                </button>
+            </div>
+
+            <div class="glass-card">
+                <div class="ai-status-panel">
+                    <span class="ai-terminal-text" id="aiStatusText">⚡ SAMARTH-INTEL_API: IDLE</span>
+                    <i class="fa-solid fa-microchip" style="color: var(--neon-purple);"></i>
+                </div>
+
+                <div class="input-group">
+                    <i id="inputModeIcon" class="fa-solid fa-hashtag input-icon"></i>
+                    <input type="text" id="targetInput" class="styled-input" placeholder="Enter WhatsApp Number..." oninput="playTick()">
+                </div>
+
+                <button class="glow-btn" id="downloadBtn">
+                    <span>EXECUTE DOWNLINK</span>
+                    <i class="fa-solid fa-bolt-lightning"></i>
+                </button>
+
+                <div class="sound-wave-container" id="soundWave">
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                    <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                </div>
+            </div>
+
+            <div class="loader-container" id="loaderContainer">
+                <div class="progress-circle">
+                    <svg viewBox="0 0 70 70">
+                        <circle cx="35" cy="35" r="30"></circle>
+                        <circle cx="35" cy="35" r="30"></circle>
+                    </svg>
+                </div>
+                <div class="loader-text" id="loaderText">SAMARTH API RESOLVING IP...</div>
+            </div>
+
+            <div class="preview-box" id="previewBox">
+                <div class="preview-avatar">
+                    <i class="fa-solid fa-circle-user"></i>
+                </div>
+                <h4 style="margin-bottom: 10px; font-size: 0.9rem; font-family: 'Fira Code', monospace; color: var(--neon-blue);">TARGET_PAYLOAD_SUCCESS.BIN</h4>
+                <button onclick="resetConsole()" style="padding:10px 20px; background:rgba(255,255,255,0.05); border:1px solid var(--neon-blue); color:white; border-radius:12px; cursor:pointer;">RESET MATRIX</button>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="made-by">Made by <span>Samarth</span></div>
+            <div class="copyright">&copy; 2026 All Rights Reserved</div>
+        </footer>
+    </div>
+
+    <script>
+        // Your original audio + animation code (kept 100%)
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+        function initAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
+        function playSound(freq, type, duration, vol) {
+            try {
+                initAudio();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = type; osc.frequency.value = freq;
+                gain.gain.value = vol;
+                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + duration);
+            } catch(e){}
+        }
+
+        function playTick() { playSound(600, 'sine', 0.05, 0.1); }
+        function playSuccessSound() {
+            playSound(523, 'sine', 0.15, 0.25);
+            setTimeout(()=>playSound(659,'sine',0.15,0.25),100);
+            setTimeout(()=>playSound(784,'sine',0.3,0.3),200);
+        }
+
+        // Real backend integration
+        document.getElementById('downloadBtn').addEventListener('click', async () => {
+            const input = document.getElementById('targetInput').value.trim();
+            if (!input) return alert('ENTER TARGET');
+
+            const loader = document.getElementById('loaderContainer');
+            const wave = document.getElementById('soundWave');
+            const preview = document.getElementById('previewBox');
+            const aiText = document.getElementById('aiStatusText');
+
+            loader.style.display = 'flex';
+            wave.style.display = 'flex';
+            document.getElementById('downloadBtn').disabled = true;
+
+            aiText.textContent = "🤖 SAMARTH-INTEL: STEALING DP...";
+
+            try {
+                const res = await fetch(`/api/dp?phone=${encodeURIComponent(input)}`);
+                const data = await res.text();
+                loader.style.display = 'none';
+                wave.style.display = 'none';
+                preview.style.display = 'block';
+                aiText.textContent = "✅ DP DOWNLOADED: " + data;
+                playSuccessSound();
+            } catch (e) {
+                aiText.textContent = "❌ FAILED";
+            } finally {
+                document.getElementById('downloadBtn').disabled = false;
+            }
+        });
+
+        // Keep your original functions
+        function switchMode(type, el) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+        }
+        function resetConsole() {
+            document.getElementById('previewBox').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
